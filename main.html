@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./scss/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <title>todolist</title>
+</head>
+
+<body>
+    <div id=todolist>
+        <header>
+            <nav>
+                <a @click="linkStaus = 0" id="myTask" class="nav_active" href="##">My Task</a>
+                <a @click="linkStaus = 1" id="inProgress" href="##">In Progress</a>
+                <a @click="linkStaus = 2" id="complete" href="##">Completed</a>
+            </nav>
+        </header>
+
+        <div class="addTaskwrapper">
+            <button class="addTaskButton" @click=" isShowInputTable = !isShowInputTable">+ Add Task</button>
+        </div>
+
+        <main id="mainWrapper">
+            <div v-if="isShowInputTable" class="myFormWrapper">
+                <form id="myForm">
+                    <div :class="{recordContainerColor:!!inputTale.starStatus}" class="titleContainer">
+                        <div>
+                            <input @click="inputTale.checkStatus = !inputTale.checkStatus"
+                                :checked="inputTale.checkStatus?true:false" type="checkbox" name="tick">
+                            <input v-model="inputTale.titleText" id="title-text"
+                                :class="{ typeTitleLine: !!inputTale.checkStatus }" type="text" class="typeTitle"
+                                placeholder="Type Something Here…">
+                        </div>
+                        <div>
+                            <!-- <i @click="starProcess" class="fas fa-star star"></i> -->
+                            <i @click="inputTale.starStatus = !inputTale.starStatus"
+                                :class="{starColor:!!inputTale.starStatus}" class="fas fa-star star"></i>
+                            <i class="fas fa-trash-alt trash"></i>
+                            <i class="fas fa-pen pen"></i>
+                        </div>
+                    </div>
+                    <div class="contentWrapper">
+                        <div class="datelineWrapper">
+                            <div>
+                                <i class="far fa-calendar-alt contentIcon"></i>
+                                <span class="contentTitle">Deadline</span>
+                            </div>
+                            <div class="dateWrapper">
+                                <input v-model="inputTale.date" id="year-text" class="deadlineInput" type="date"
+                                    placeholder="yyyy-mm-dd">
+                                <input v-model="inputTale.time" id="hour-text" class="deadlineInput" type="time"
+                                    placeholder="hh:mm">
+                            </div>
+                        </div>
+
+                        <div class="fileWrapper">
+                            <div>
+                                <i class="far fa-file contentIcon"></i>
+                                <span class="contentTitle">File</span>
+                            </div>
+                            <div>
+                                <label class="upload_cover">
+                                    <input id="upload_input" type="file">
+                                    <span class="upload_icon">➕</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="commentWrapper">
+                            <div>
+                                <i class="far fa-comment-dots contentIcon"></i>
+                                <span class="contentTitle">Comment</span>
+                            </div>
+                            <div>
+
+                                <input v-model="inputTale.commentText" id="comment-text" class="memoInput" type="text"
+                                    placeholder="Type your memo here">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttonWrapper">
+                        <input @click="isShowInputTable = !isShowInputTable" class="cancleinput" type="submit"
+                            value="✕ Cancle">
+                        <input @click.prevent="add" class="addinput" type="submit" value="+ Add Task">
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <div id="plates">
+            <!-- 顯示留言區 -->
+            <div v-for="(item,index) in sorting" :key="item.id"
+                :class="{recordContainerColor:!!sorting[index].starStatus}" class="recordContainer">
+                <div class="messageContainer">
+                    <div>
+                        <input @click="item.checkStatus = !item.checkStatus"
+                            :checked="sorting[index].checkStatus?true:false" type="checkbox">
+                        <!-- <span :class="item.checkStatus?'typeTitle typeTitleLine':'typeTitle'">{{item.titleText}}</span> -->
+                        <input v-model="sorting[index].titleText" :class="{typeTitleLine:!!sorting[index].checkStatus}"
+                            class="typeTitle" :value="sorting[index].titleText"></input>
+
+                    </div>
+                    <div>
+                        <!-- <i class="fas fa-star star"></i> -->
+                        <i @click="item.starStatus = !item.starStatus" :class="{starColor:!!sorting[index].starStatus}"
+                            class="fas fa-star star"></i>
+                        <i @click="remove(item)" class="fas fa-trash-alt trash"></i>
+                        <i @click="item.penStatus = !item.penStatus" class="fas fa-pen pen"></i>
+                    </div>
+                </div>
+                <div v-if="!item.penStatus" class="mgIconWrapper">
+                    <i class="far fa-calendar-alt messageIcon"></i>
+                    <span class="dateStamp">{{item.date}}</span>
+                    <span class="dateStamp">{{item.time}}</span>
+                    <i class="far fa-file messageIcon"></i>
+                    <i class="far fa-comment-dots messageIcon"></i>
+                </div>
+
+
+                <!-- test -->
+                <div v-if="item.penStatus" class="myFormWrapper">
+                    <form id="myForm">
+                        <div class="contentWrapper">
+                            <div class="datelineWrapper">
+                                <div>
+                                    <i class="far fa-calendar-alt contentIcon"></i>
+                                    <span class="contentTitle">Deadline</span>
+                                </div>
+                                <div class="dateWrapper">
+                                    <input v-model="sorting[index].date" id=" year-text" class="deadlineInput"
+                                        type="date" :value="item.date">
+                                    <input v-model="sorting[index].time" id=" hour-text" class="deadlineInput"
+                                        type="time" :value="item.time">
+                                </div>
+                            </div>
+
+                            <div class="fileWrapper">
+                                <div>
+                                    <i class="far fa-file contentIcon"></i>
+                                    <span class="contentTitle">File</span>
+                                </div>
+                                <div>
+                                    <label class="upload_cover">
+                                        <input id="upload_input" type="file">
+                                        <span class="upload_icon">➕</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="commentWrapper">
+                                <div>
+                                    <i class="far fa-comment-dots contentIcon"></i>
+                                    <span class="contentTitle">Comment</span>
+                                </div>
+                                <div>
+
+                                    <input v-model="sorting[index].commentText" id=" comment-text" class="memoInput"
+                                        type="text" :value="item.commentText">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttonWrapper">
+                            <input @click.prevent="item.penStatus = !item.penStatus" class="cancleinput" type="submit"
+                                value="✕ Cancle">
+                            <input @click.prevent="item.penStatus = !item.penStatus" class="addinput" type="submit"
+                                value="+ Save">
+                        </div>
+                    </form>
+                </div>
+                <!-- test -->
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+    <!-- <script src="main.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <!-- <script type="module" src="main.js"></script> -->
+    <script type="module" src="vue.js"></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+.myFormWrapper {
+  width: 620px;
+  //   height: 520px;
+  margin: 22px auto 0 auto;
+  background-color: #f2f2f2;
+  @include medium {
+    width: 90%;
+  }
+}
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  @include small {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* padding-left: 150px; */
+  height: 405px;
+  margin-left: 75px;
+  @include medium {
+    margin-left: 10%;
+  }
+}
+.contentIcon {
+  font-size: 15px;
+  //   margin-left: 25px;
+}
+
+.contentTitle {
+  font-weight: bold;
+  font-size: 20px;
+}
+.deadlineInput {
+  width: 162px;
+  height: 35px;
+
+  font-family: Roboto-Regular;
+  font-size: 16px;
+  color: #c8c8c8;
+  @include medium {
+    margin-bottom: 15px;
+  }
+}
+
+.memoInput {
+  width: 445px;
+  height: 120px;
+
+  font-family: Roboto-Regular;
+  font-size: 16px;
+  color: #c8c8c8;
+  margin-left: 15px;
+  margin-top: 8px;
+  @include medium {
+    width: 80%;
+  }
+}
+.upload_cover {
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  left: 16px;
+  top: 6px;
+  // margin-left: 16px;
+}
+
+#upload_input {
+  display: none;
+}
+
+.upload_icon {
+  font-weight: bold;
+  font-size: 20px;
+  position: absolute;
+
+  width: 32px;
+  height: 32px;
+  color: #ffffff;
+  background-color: #c8c8c8;
+  line-height: 30px;
+  border-radius: 2px;
+}
+.commentWrapper {
+  margin-top: 25px;
+}
+.dateWrapper {
+  margin-left: 15px;
+  margin-top: 8px;
+}
+
+.recordContainer {
+  width: 620px;
+  margin: 22px auto 0 auto;
+  background-color: #f2f2f2;
+  @include medium {
+    width: 90%;
+  }
+}
+.recordContainerColor {
+  background: #fff2dc;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 76px;
+  box-shadow: 0 5px 4px -4px black;
+  padding: 0 25px;
+  @include medium {
+    justify-content: space-around;
+    padding: 0;
+  }
+  @include small {
+    padding: 0 15px;
+  }
+}
+.titleContainerColor {
+  background-color: #fff2dc;
+}
+
+.dateStamp {
+  color: #757575;
+}
